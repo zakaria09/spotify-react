@@ -1,0 +1,6 @@
+
+1. Implement Pagination
+
+2. Implement routing for songs or singles
+
+3. Implement a song player

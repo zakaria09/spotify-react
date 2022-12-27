@@ -1,0 +1,16 @@
+
+.panel-item {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    cursor: pointer;
+    
+    .song-info {
+        padding: 1em 0;
+        .MuiTypography-h5 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
