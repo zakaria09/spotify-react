@@ -5,7 +5,7 @@ import { SpotifyAuth, Scopes } from 'react-spotify-auth';
 import 'react-spotify-auth/dist/index.css'
 import React from 'react';
 import Cookies from 'js-cookie'
-import { config } from './config';
+import { config } from '../config';
 // import { SpotifyApiContext } from 'react-spotify-api'
 import { useNavigate } from "react-router-dom";
 
