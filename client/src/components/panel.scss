@@ -4,6 +4,9 @@
     justify-content: space-around;
     flex-direction: column;
     cursor: pointer;
+    .paper-panel {
+        padding: 1.5rem;
+    }
     
     .song-info {
         padding: 1em 0;

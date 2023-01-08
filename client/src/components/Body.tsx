@@ -18,7 +18,7 @@ export const Body = (props: any) => {
         <>
             {/* Handle Search  */}
             {/* List selected song */}
-            { album && <ListAlbum /> }
+            { album && <ListAlbum back={() => setAlbum(undefined)} album={album} /> }
             { !album && <Dashboard code={props.code} setViewAlbum={handleViewAlbum} /> }
         </>
     );

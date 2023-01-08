@@ -25,8 +25,8 @@ export default function Panel(props: any) {
   
   return (
     <div className='panel-item'>
-      <Paper elevation={isHovering ? 3 : 0} className='MuiPaper-elevation'>
-        <Card sx={{ maxWidth: 375 }} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => props.selectedSong(props)}>
+      <Paper elevation={isHovering ? 10 : 1} variant='elevation' className='MuiPaper-rounded paper-panel'>
+        <Card style={{boxShadow: "none"}} sx={{ maxWidth: 375 }} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => props.selectedSong(props)}>
           <div className='song-card-continer'>
             <CardMedia
               component="img"

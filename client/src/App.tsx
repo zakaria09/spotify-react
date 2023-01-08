@@ -1,10 +1,10 @@
-import './App.css'
+import './App.scss'
 import Body from './components/Body'
 import { Routes, Route } from "react-router-dom";
 import { SpotifyAuth, Scopes } from 'react-spotify-auth';
 import 'react-spotify-auth/dist/index.css'
 import React from 'react';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import { config } from '../config';
 // import { SpotifyApiContext } from 'react-spotify-api'
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 function App() {
   const navigate = useNavigate();
   const [token, setToken] = React.useState(Cookies.get("spotifyAuthToken"));
+
+  console.log('tk',token);
 
   return (
       <div className='app'>

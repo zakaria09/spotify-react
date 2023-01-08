@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import { config } from '../../config';
+import Cookies from 'js-cookie';
 
 export const axiosInstance = axios.create({
   baseURL: config.api.baseUrl,
@@ -16,6 +17,17 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+axiosInstance.interceptors.response.use((response) => {
+  // Any status code that lie within the range of 2xx cause this function to trigger
+  // Do something with response data
+  return response;
+}, (error) => {
+  console.log(error);
+  window.location.replace(window.location.origin);
+  Cookies.remove('spotifyAuthToken')
+  return Promise.reject(error);
+});
 
 export const getAlbum = async (url: string) => {
   const { data } = await axiosInstance.get(url);
