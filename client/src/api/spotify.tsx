@@ -17,7 +17,10 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-export const getAccessToken = async (code: string): Promise<any> => axios.post("http://localhost:3000/login", { code: code });
+export const getAlbum = async (url: string) => {
+  const { data } = await axiosInstance.get(url);
+  return data;
+};
 
 export const listReleases = async () => {
   const { data } = await axiosInstance.get(config.api.baseUrl + '/browse/new-releases' );

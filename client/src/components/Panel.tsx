@@ -16,17 +16,23 @@ export default function Panel(props: any) {
   const handleMouseOut = () => {
     setIsHovering(false);
   };
+
+  const largestImage = () => {
+    return props.images.sort((a: any, b: any) => {
+      return b.height - a.height;
+    })[0]
+  }
   
   return (
     <div className='panel-item'>
       <Paper elevation={isHovering ? 3 : 0} className='MuiPaper-elevation'>
-        <Card sx={{ maxWidth: 375 }} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => props.selectedSong(props.uri)}>
+        <Card sx={{ maxWidth: 375 }} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => props.selectedSong(props)}>
           <div className='song-card-continer'>
             <CardMedia
               component="img"
               height={props.height}
               width={props.width}
-              image={props.images[0].url}
+              image={largestImage().url}
               alt="album image"
               />
 
@@ -35,13 +41,11 @@ export default function Panel(props: any) {
                 <Typography component="div" variant="h5">
                   { props.name }
                 </Typography>
-                {
-                  props.artists.map((artist: any) => (
-                    <Typography key={artist.id} variant="subtitle1" color="text.secondary" component="div">
-                      { artist.name }
-                    </Typography>
-                  ))
-                }
+                <Typography variant="subtitle1" color="text.secondary" component="div">
+                  {
+                    props.artists.map((artist: any) => artist.name).join(', ')
+                  }
+                </Typography>
               </div>
           </div>
         </Card>
