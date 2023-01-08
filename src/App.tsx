@@ -14,8 +14,6 @@ function App() {
   const navigate = useNavigate();
   const [token, setToken] = React.useState(Cookies.get("spotifyAuthToken"));
 
-  console.log('tk',token);
-
   return (
       <div className='app'>
         {token ? (

@@ -37,15 +37,24 @@ export default function Panel(props: any) {
               />
 
               <div className='song-info'>    
-                <Chip label={ props.album_type } variant="outlined" />          
+                { props.album_type && <Chip label={ props.album_type } variant="outlined" /> }
                 <Typography component="div" variant="h5">
                   { props.name }
                 </Typography>
-                <Typography variant="subtitle1" color="text.secondary" component="div">
-                  {
-                    props.artists.map((artist: any) => artist.name).join(', ')
-                  }
-                </Typography>
+                { 
+                  props.artists && <Typography variant="subtitle1" color="text.secondary" component="div">
+                    {
+                      props.artists.map((artist: any) => artist.name).join(', ')
+                    }
+                  </Typography> 
+                }
+                {
+                  props.description && <Typography variant="subtitle1" color="text.secondary" component="div">
+                    {
+                      props.description
+                    }
+                  </Typography>
+                }
               </div>
           </div>
         </Card>

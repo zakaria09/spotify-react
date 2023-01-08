@@ -67,6 +67,7 @@ interface Image {
 export const ListAlbum = (props: {
   back(): void; album: Album
 }) => {
+  console.log('ugyuu', props.album);
   return (
     <>
       <div className='back-btn'>        

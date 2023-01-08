@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { Button, Collapse, TextField, Typography } from '@mui/material';
-import { getNext, listReleases, savedTracks } from '../api/spotify';
+import { getFeaturedAlbums, getNext, listReleases, savedTracks } from '../api/spotify';
 import Panel from './Panel';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import NavigateSongs from './NavigateSongs';
 import { useNavigate } from 'react-router-dom'
+import { PreviewSection } from './PreviewSection';
 
 export const Dashboard = (props: any) => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export const Dashboard = (props: any) => {
   const [ accessToken, setAccessToken ] = React.useState('');
   const [ newReleases, setReleases ] = React.useState({ items: [], next: '', previous: '' });
   const [ savedSongs, setSavedSongs ] = React.useState({ items: [], next: '', previous: '' });
+  const [ featuredAlbums, setFeaturedAlbums ] = React.useState({ message: '', playlists: { items: [] }, next: '', previous: '' });
   const [ showMoreReleases, setShowMoreReleases ] = React.useState(false);
   const [ showMoreSavedSongs, setShowMoreSavedSongs ] = React.useState(false);
   const [ playingSong, setPlayingSong ] = React.useState('');
@@ -25,6 +27,7 @@ export const Dashboard = (props: any) => {
       console.log('token', accessToken);
       listRelease();
       listSavedTracks();
+      listFeaturedAlbums();
       },
     []
   )
@@ -37,6 +40,12 @@ export const Dashboard = (props: any) => {
   const listSavedTracks = async () => {
       const saved = await savedTracks();
       setSavedSongs(saved);
+  };
+
+  const listFeaturedAlbums = async () => {
+      const f_albums = await getFeaturedAlbums();
+      console.log('f_albums', f_albums);
+      setFeaturedAlbums(f_albums);
   };
 
 
@@ -72,41 +81,48 @@ export const Dashboard = (props: any) => {
           onChange={handleChange}
         />
 
-        <Typography variant="h2" gutterBottom>
-            New Releases 🆕
-        </Typography>
-        
-        <NavigateSongs {...newReleases} fetchMoreData={(data: any) => fetchMoreData(data, (nextItems: any) => setReleases(nextItems.albums))} />
-
-        <Collapse in={showMoreReleases} collapsedSize={510}>
+        <PreviewSection 
+          title='New Releases 🆕' 
+          showMore={showMoreReleases} 
+          songData={newReleases} 
+          fetchMoreData={(data: any) => fetchMoreData(data, (nextItems: any) => setReleases(nextItems.albums))} >
             <div className='panel-container' >
-                {
-                    newReleases.items.length ? 
-                        newReleases.items.map((release: any) => <Panel key={release.id} {...release} selectedSong={handleSelectedSong} />) : null
-                }
+              {
+                newReleases.items.length ? 
+                    newReleases.items.map((release: any) => <Panel key={release.id} {...release} selectedSong={handleSelectedSong} />) : null
+              }
             </div>
-        </Collapse>
+        </PreviewSection>
 
         <Button variant="outlined" onClick={() => setShowMoreReleases(!showMoreReleases)}>Show { showMoreReleases ? 'Less' : 'More' }</Button>
 
-        <Typography variant="h2" gutterBottom>
-            Liked Songs 💙
-        </Typography>
-
-        <NavigateSongs {...savedSongs} fetchMoreData={(data: any) => fetchMoreData(data, (nextItems: any) => setSavedSongs(nextItems))} />
-
-        <Collapse in={showMoreSavedSongs} collapsedSize={510}>
+        <PreviewSection 
+          title='Liked Songs 💙' 
+          showMore={showMoreSavedSongs} 
+          songData={savedSongs} 
+          fetchMoreData={(data: any) => fetchMoreData(data, (nextItems: any) => setSavedSongs(nextItems))} >
             <div className='panel-container' >
-                <>
                 {
-                    savedSongs.items.length ? 
-                        savedSongs.items.map((saved: any) => <Panel key={saved.track.id} {...saved.track.album} selectedSong={handleSelectedSong} />) : null
+                  savedSongs.items.length ? 
+                      savedSongs.items.map((saved: any) => <Panel key={saved.track.id} {...saved.track.album} selectedSong={handleSelectedSong} />) : null
                 }
-                </>
             </div>
-        </Collapse>
+        </PreviewSection>
 
         <Button variant="outlined" onClick={() => setShowMoreSavedSongs(!showMoreSavedSongs)}>Show { showMoreSavedSongs ? 'Less' : 'More' }</Button>
+
+        <PreviewSection 
+          title={`Featured Albums 🎶 | ${featuredAlbums.message}`}
+          showMore={true} 
+          songData={featuredAlbums.playlists} 
+          fetchMoreData={(data: any) => fetchMoreData(data, (nextItems: any) => setFeaturedAlbums(nextItems))} >
+            <div className='panel-container' >
+                {
+                  featuredAlbums.playlists.items.length ? 
+                      featuredAlbums.playlists.items.map((album: any) => <Panel key={album.id} {...album} selectedSong={handleSelectedSong} />) : null
+                }
+            </div>
+        </PreviewSection>
 
         {
           accessToken && (

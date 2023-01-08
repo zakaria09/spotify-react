@@ -44,6 +44,11 @@ export const savedTracks = async () => {
   return data;
 };
 
+export const getFeaturedAlbums = async () => {
+  const { data } = await axiosInstance.get(config.api.baseUrl + '/browse/featured-playlists' );
+  return data;
+};
+
 export const getNext = async (url: string) => {
   const { data } = await axiosInstance.get( url );
   return data;
