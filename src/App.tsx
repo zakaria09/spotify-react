@@ -6,19 +6,25 @@ import 'react-spotify-auth/dist/index.css'
 import React from 'react';
 import Cookies from 'js-cookie';
 import { config } from '../config';
-// import { SpotifyApiContext } from 'react-spotify-api'
-import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material';
 
+const darkTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 
 function App() {
-  const navigate = useNavigate();
+
   const [token, setToken] = React.useState(Cookies.get("spotifyAuthToken"));
 
   return (
       <div className='app'>
         {token ? (
               <>
+              <ThemeProvider theme={darkTheme}>
                 <Body code={token} />
+              </ThemeProvider>
               </>
         ) : (
           // Display the login page

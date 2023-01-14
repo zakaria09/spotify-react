@@ -2,13 +2,10 @@ import React, { useEffect, useMemo } from 'react';
 import { Button, Collapse, TextField, Typography } from '@mui/material';
 import { getFeaturedAlbums, getNext, listReleases, savedTracks } from '../api/spotify';
 import Panel from './Panel';
-import SpotifyPlayer from 'react-spotify-web-playback';
-import NavigateSongs from './NavigateSongs';
-import { useNavigate } from 'react-router-dom'
 import { PreviewSection } from './PreviewSection';
 
 export const Dashboard = (props: any) => {
-  const navigate = useNavigate();
+
   const { code } = props;
   
   const [ accessToken, setAccessToken ] = React.useState('');
@@ -17,9 +14,6 @@ export const Dashboard = (props: any) => {
   const [ featuredAlbums, setFeaturedAlbums ] = React.useState({ message: '', playlists: { items: [] }, next: '', previous: '' });
   const [ showMoreReleases, setShowMoreReleases ] = React.useState(false);
   const [ showMoreSavedSongs, setShowMoreSavedSongs ] = React.useState(false);
-  const [ playingSong, setPlayingSong ] = React.useState('');
-  const [ play, setPlay ] = React.useState(false);
-  const [ search, setSearch ] = React.useState('');
 
   useEffect(
     () => {
@@ -62,25 +56,10 @@ export const Dashboard = (props: any) => {
       // setPlayingSong(song);
   };
 
-  const handleChange = (e: React.ChangeEvent<any>) => {
-    setSearch(e.target.value);
-    console.log(search);
-  }
 
-
-  const styles = {
-      bgColor: '#fff',
-  };
   return (
     <div>
       <div className='main-container'>
-         <TextField
-          id="outlined-name"
-          label="Name"
-          value={search}
-          onChange={handleChange}
-        />
-
         <PreviewSection 
           title='New Releases 🆕' 
           showMore={showMoreReleases} 
@@ -124,21 +103,6 @@ export const Dashboard = (props: any) => {
             </div>
         </PreviewSection>
 
-        {
-          accessToken && (
-            <div className="player">
-                <SpotifyPlayer
-                    token={accessToken}
-                    uris={ playingSong ? [`${playingSong}`] : [] }
-                    play={play}
-                    autoPlay={true}
-                    magnifySliderOnHover={true}
-                    showSaveIcon={true}
-                    styles={styles}
-                />;
-            </div>
-          )
-        }
         </div>
     </div>
   )

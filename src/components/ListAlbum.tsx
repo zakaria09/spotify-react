@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,64 +10,27 @@ import Paper from '@mui/material/Paper';
 import './ListAlbum.scss';
 import { Button, Typography } from '@mui/material';
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPlay, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Moment from 'react-moment';
 import moment from 'moment';
+import { Album } from './song.types';
 
-library.add(faArrowLeft);
-
-interface Album {
-  album_type: string;
-  total_tracks: number;
-  available_markets: string[];
-  external_urls: any;
-  href: string;
-  id: string;
-  images: Image[];
-  name: string;
-  release_date: string;
-  release_date_precision: string;
-  restrictions: any;
-  type: string;
-  uri: string;
-  artists: Artist[];
-  tracks: Tracks;
-};
-
-interface Tracks {
-  href: string;
-  items: any[];
-  limit: number;
-  next: string;
-  offset: number;
-  previous: string;
-  total: number;
-}
-
-interface Artist {
-  external_urls: string;
-  followers: any;
-  genres: string[];
-  href: string;
-  id: string;
-  images: Image[];
-  name: string;
-  popularity: number;
-  type: string;
-  uri: string;
-}
-
-interface Image {
-  url: string;
-  height: number;
-  width: number;
-}
+library.add(faArrowLeft, faPlay, faClock);
 
 export const ListAlbum = (props: {
   back(): void; album: Album
 }) => {
-  console.log('ugyuu', props.album);
+  const [isHoveringTrack, setIsHoveringTrack] = useState<number | undefined>();
+
+  const handleMouseOver = (id: number) => {
+    setIsHoveringTrack(id);
+    console.log('handleMouseOver', id);
+  };
+
+  const handleMouseOut = () => {
+    setIsHoveringTrack(undefined);
+  };
+  
   return (
     <>
       <div className='back-btn'>        
@@ -92,7 +55,7 @@ export const ListAlbum = (props: {
             <TableRow>
               <TableCell>#</TableCell>
               <TableCell align='left'>Title</TableCell>
-              <TableCell align="right">Duration</TableCell>
+              <TableCell align="right"><FontAwesomeIcon icon={faClock} /> </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -101,8 +64,17 @@ export const ListAlbum = (props: {
                 key={row.track_number}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 hover
+                onMouseOver={() => handleMouseOver(row.track_number)} 
+                onMouseOut={handleMouseOut}
               >
-                <TableCell component="th" scope="row">{row.track_number}</TableCell>
+                <TableCell component="th" scope="row">
+                  { 
+                    row.track_number === isHoveringTrack 
+                    ? 
+                    <FontAwesomeIcon icon={faPlay} /> : 
+                    row.track_number 
+                  }
+                </TableCell>
                 <TableCell align='left'>{row.name}</TableCell>
                 <TableCell align="right">
                     { moment(row.duration_ms).format('mm:ss') }
