@@ -39,6 +39,12 @@ export const listReleases = async () => {
   return data;
 };
 
+export const getSearch = async (searchTerm: string) => {
+  if (!searchTerm) return;
+  const { data } = await axiosInstance.get(config.api.baseUrl + `/search?q=${searchTerm}&type=track` );
+  return data;
+};
+
 export const savedTracks = async () => {
   const { data } = await axiosInstance.get(config.api.baseUrl + '/me/tracks' );
   return data;

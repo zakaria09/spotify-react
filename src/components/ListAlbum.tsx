@@ -24,7 +24,6 @@ export const ListAlbum = (props: {
 
   const handleMouseOver = (id: number) => {
     setIsHoveringTrack(id);
-    console.log('handleMouseOver', id);
   };
 
   const handleMouseOut = () => {

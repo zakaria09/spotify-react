@@ -1,12 +1,17 @@
 import { TextField } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDebounce } from 'usehooks-ts'
 
-export const Search = () => {
+export const Search = ({ typedSearch }: any) => {
   const [ search, setSearch ] = React.useState('');
+  const debouncedValue = useDebounce<string>(search, 1000)
+
+  useEffect(() => {
+    typedSearch(debouncedValue);
+  }, [debouncedValue])
 
   const handleChange = (e: React.ChangeEvent<any>) => {
     setSearch(e.target.value);
-    console.log(search);
   }
 
   return (

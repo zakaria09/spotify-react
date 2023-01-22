@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAlbum } from '../api/spotify';
+import { getAlbum, getSearch } from '../api/spotify';
 import './body.scss';
 import { Dashboard } from './Dashboard';
 import { ListAlbum } from './ListAlbum';
@@ -15,6 +15,11 @@ export const Body = (props: any) => {
         .then(res => setAlbum(res));
     };
 
+    const handleSearch = async (searchVal: string) => {
+      const res = await getSearch(searchVal);
+      console.log(res);
+    }
+
     return (
         <>
             {/* List selected song */}
@@ -22,7 +27,7 @@ export const Body = (props: any) => {
             { 
               !album &&
               <div>
-                <Search />
+                <Search typedSearch={handleSearch} />
                 <Dashboard code={props.code} setViewAlbum={handleViewAlbum} /> 
               </div>
             }
