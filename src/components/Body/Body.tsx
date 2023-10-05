@@ -1,11 +1,11 @@
 import React from 'react';
-import { getAlbum, getSearch } from '../api/spotify';
+import { getAlbum, getSearch } from '../../api/spotify';
 import './body.scss';
-import { Dashboard } from './Dashboard';
-import { ListAlbum } from './ListAlbum';
-import { Player } from './Player';
-import { Search } from './Search';
-import SearchResults from './SearchResults';
+import { Dashboard } from '../Dashboard/Dashboard';
+import { Player } from '../Player/Player';
+import { Search } from '../Search';
+import SearchResults from '../SearchResults';
+import { ListAlbum } from '../ListAlbums/ListAlbum';
 
 export const Body = (props: any) => {
 
@@ -21,6 +21,7 @@ export const Body = (props: any) => {
     const handleSearch = async (searchVal: string) => {
       const resp = await getSearch(searchVal);
       console.log('searchTerm', resp);
+      if (!resp) return;
       setSearchTerm(searchVal);
       setSearchResults(resp.tracks);
     }

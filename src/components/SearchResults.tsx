@@ -1,8 +1,8 @@
 import React from 'react'
-import { Tracks } from './song.types'
-import { PreviewSection } from './PreviewSection'
+import { Tracks } from '../types/song.types'
+import { PreviewSection } from './PreviewSection/PreviewSection'
 import { getNext } from '../api/spotify'
-import Panel from './Panel'
+import Panel from './Panel/Panel'
 
 const SearchResults = ({ tracks, term, setViewAlbum }: { tracks: Tracks | undefined; term: string | undefined; setViewAlbum: any }) => {
 

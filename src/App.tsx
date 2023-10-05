@@ -1,5 +1,5 @@
 import './App.scss'
-import Body from './components/Body'
+import Body from './components/Body/Body'
 import { Routes, Route } from "react-router-dom";
 import { SpotifyAuth, Scopes } from 'react-spotify-auth';
 import 'react-spotify-auth/dist/index.css'
@@ -7,6 +7,9 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { config } from '../config';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const darkTheme = createTheme({
   palette: {
@@ -21,9 +24,11 @@ function App() {
   return (
       <div className='app'>
         {token ? (
-              <>
+              <> 
               <ThemeProvider theme={darkTheme}>
-                <Body code={token} />
+                <QueryClientProvider client={queryClient}>
+                  <Body code={token} />
+                </QueryClientProvider>
               </ThemeProvider>
               </>
         ) : (

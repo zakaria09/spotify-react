@@ -13,7 +13,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faArrowLeft, faPlay, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
-import { Album } from './song.types';
+import { Album } from '../../types/song.types';
 
 library.add(faArrowLeft, faPlay, faClock);
 
